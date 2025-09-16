@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>QR Generator</title>
+  <style>
+    /* Reset-ish */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Page background & overall layout */
+html, body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: linear-gradient(180deg, #f6f9ff 0%, #ffffff 60%);
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+/* Card */
+.qr-card {
+  width: 100%;
+  max-width: 520px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  padding: 28px;
+  text-align: center;
+  border: 1px solid rgba(15,23,42,0.04);
+}
+
+/* Title */
+.qr-card h1 {
+  font-size: 1.5rem;
+  margin-bottom: 14px;
+  letter-spacing: -0.02em;
+}
+
+/* Inputs layout */
+.inputs {
+  display: grid;
+  gap: 12px;
+  margin: 14px 0 18px;
+}
+
+
+input[type="text"], input[type="search"], input[type="email"], #name, #content {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(15,23,42,0.08);
+  background: #fbfdff;
+  font-size: 0.95rem;
+  outline: none;
+  transition: box-shadow .15s ease, border-color .15s ease;
+}
+input:focus {
+  box-shadow: 0 6px 18px rgba(59,130,246,0.12);
+  border-color: rgba(59,130,246,0.9);
+}
+
+
+.btn {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 18px;
+  border-radius: 10px;
+  background: linear-gradient(90deg,#2563eb,#3b82f6);
+  color: white;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: transform .08s ease, box-shadow .12s ease, opacity .12s ease;
+  box-shadow: 0 8px 20px rgba(59,130,246,0.18);
+}
+.btn:active { transform: translateY(1px) scale(.998); }
+.btn:hover { opacity: 0.98; }
+
+
+#qrcode {
+  font-size: 1.5em;
+  margin: 20px auto 8px;
+  width: 420px;
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #ffffff, #f8fbff);
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px dashed rgba(15,23,42,0.05);
+  box-shadow: inset 0 2px 6px rgba(2,6,23,0.02);
+}
+
+#qrcode canvas, #qrcode img {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  border-radius: 4px;
+  font-size: 1.5em;
+}
+
+/* Plain text under the QR */
+#qrtext {
+  font-size: 1.5em;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #374151;
+  word-break: break-all;
+}
+.link{
+  display: flex;
+  flex-direction: column;
+  color: black;
+  padding: 10px;
+  margin: 20px;
+  font-size: 1.1em;
+  text-decoration: none;
+}
+.link:hover{
+  text-decoration: underline;
+
+}
+
+ 
+
+
+
+@media (max-width: 480px) {
+  .qr-card { padding: 18px; border-radius: 12px; }
+  #qrcode { width: 180px; height: 180px; }
+  .btn { width: 100%; }
+}
+
+
+  </style>
+</head>
+<body>
+  <h1>QR Generator</h1>
+
+  <input id="name" placeholder="Enter name"><br><br>
+  <input id="content" placeholder="Enter roll no"><br><br>
+  <button onclick="makeQR()">Generate QR</button>
+
+  <div id="qrcode"></div>
+  <p id="qrtext"></p>
+
+  <p><a href="scanner.html" class="link">Go to QR Scanner</a></p>
+  <p><a href="INDEX.HTML" class="link">Go to HOME</a></p>
+
+  <!-- QRCode library -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script>
+    function makeQR() {
+      let name = document.getElementById("name").value;
+      let content = document.getElementById("content").value;
+      let text = name ? name + ": " + content : content;
+
+      document.getElementById("qrcode").innerHTML = "";
+      let canvas = document.createElement("canvas");
+      document.getElementById("qrcode").appendChild(canvas);
+
+      QRCode.toCanvas(canvas, text);
+      QRCode.toCanvas(canvas, text, { width: 300 });  // width matches container
+
+      document.getElementById("qrtext").innerText = text;
+    }
+  </script>
+</body>
+</html>

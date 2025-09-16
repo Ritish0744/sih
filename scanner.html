@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>QR Scanner</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    video {
+      border: 3px solid #333;
+      border-radius: 10px;
+      margin-top: 20px;
+      max-width: 90%;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      background-color: #000000;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #070707;
+    }
+
+    #result {
+      display: inline-block;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #d9534f; /* red for messages */
+    }
+
+    #resul {
+      margin-top: 15px;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      background-color: #fff;
+      min-height: 50px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    a {
+      text-align: left;
+      display: inline-block;
+      margin: 5px;
+      color: #000000;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      margin-top: 70px;
+    }
+
+    a:hover {
+      color: #000000;
+      text-decoration: underline;
+    }
+
+    p {
+      margin: 10px 0;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>QR Scanner</h1>
+
+  <button onclick="startScan()">Start Scan</button>
+  <button onclick="stopScan()">Stop</button><br><br>
+
+  <video id="video" width="300" autoplay></video>
+  <p>Result: <span id="result"></span></p>
+  <p> <span id="resul"></span></p>
+
+  <p><a href="qr.html">Go to QR Generator</a></p>
+  <p><a href="INDEX.HTML">Go to HOME</a></p>
+
+  <!-- jsQR library -->
+  <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+  <script>
+    let video = document.getElementById("video");
+    let result = document.getElementById("result");
+    let resul = document.getElementById("resul");
+    let stream, interval;
+    let canScan = true;
+    let scannedCodes = new Set(); // store scanned QR codes
+
+    async function startScan() {
+      stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+      video.srcObject = stream;
+
+      let canvas = document.createElement("canvas");
+      let ctx = canvas.getContext("2d");
+
+      interval = setInterval(() => {
+        if (!canScan) return; // skip scanning during cooldown
+
+        if (video.readyState === video.HAVE_ENOUGH_DATA) {
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          let img = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          let code = jsQR(img.data, canvas.width, canvas.height);
+
+          if (code) {
+            canScan = false;
+
+            if (scannedCodes.has(code.data)) {
+              result.textContent = "Attendance already marked!";
+            } else {
+              scannedCodes.add(code.data);
+
+              let p = document.createElement("p");
+              p.innerHTML = code.data;
+              resul.appendChild(p);
+              result.textContent=" "
+
+            }
+          
+
+            
+            setTimeout(() => { canScan = true; }, 1000);
+          }
+        }
+      }, 500);
+    }
+
+    function stopScan() {
+      if (stream) stream.getTracks().forEach(t => t.stop());
+      clearInterval(interval);
+      result.textContent = "Stopped";
+    }
+  </script>
+</body>
+</html>
