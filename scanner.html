@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>QR Scanner</title>
- <style>
+  <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
@@ -99,18 +99,23 @@
 </head>
 <body>
   <h1>QR Scanner</h1>
+  <div class="links">
+    <p><a href="qr.html">Go to QR Generator</a></p>
+  <p><a href="INDEX.HTML">Go to HOME</a></p>
 
-  <button onclick="startScan()">Start Scan</button>
-  <button onclick="stopScan()">Stop</button><br><br>
+  </div>
+   
+
+  <button class="btnn"  onclick="startScan()">Start Scan</button>
+  <button  class="btnn" onclick="stopScan()">Stop</button><br><br>
 
   <video id="video" width="300" autoplay></video>
   <p>Result: <span id="result"></span></p>
   <p> <span id="resul"></span></p>
 
-  <p><a href="qr.html">Go to QR Generator</a></p>
-  <p><a href="INDEX.HTML">Go to HOME</a></p>
+ 
 
-  <!-- jsQR library -->
+  
   <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
   <script>
     let video = document.getElementById("video");
@@ -168,4 +173,3 @@
   </script>
 </body>
 </html>
-
