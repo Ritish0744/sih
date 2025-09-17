@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <title>QR Generator</title>
   <style>
-    /* Reset-ish */
+    
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* Page background & overall layout */
+
 html, body {
   display: flex;
   flex-direction: column;
@@ -26,7 +26,7 @@ body {
   padding: 32px;
 }
 
-/* Card */
+
 .qr-card {
   width: 100%;
   max-width: 520px;
@@ -38,14 +38,14 @@ body {
   border: 1px solid rgba(15,23,42,0.04);
 }
 
-/* Title */
+
 .qr-card h1 {
   font-size: 1.5rem;
   margin-bottom: 14px;
   letter-spacing: -0.02em;
 }
 
-/* Inputs layout */
+
 .inputs {
   display: grid;
   gap: 12px;
@@ -110,7 +110,7 @@ input:focus {
   font-size: 1.5em;
 }
 
-/* Plain text under the QR */
+
 #qrtext {
   font-size: 1.5em;
   margin-top: 8px;
@@ -121,7 +121,7 @@ input:focus {
 .link{
   display: flex;
   flex-direction: column;
-  color: black;
+  color: rgb(96, 94, 94);
   padding: 10px;
   margin: 20px;
   font-size: 1.1em;
@@ -129,11 +129,9 @@ input:focus {
 }
 .link:hover{
   text-decoration: underline;
+  color: black;
 
 }
-
- 
-
 
 
 @media (max-width: 480px) {
@@ -141,24 +139,50 @@ input:focus {
   #qrcode { width: 180px; height: 180px; }
   .btn { width: 100%; }
 }
+.btnnn{
+  border: none;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 14px 1px grey;
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  font-size: 1.2em;
+}
+.btnnn:hover{
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+}
+.btnnn:hover:active{
+  background-color: rgb(99, 97, 97);
+  color: rgb(255, 255, 255);
 
-
+}
+.linkss{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
   </style>
 </head>
 <body>
   <h1>QR Generator</h1>
+  <div class="linkss">
+    <p><a href="scanner.html" class="link">Go to QR Scanner</a></p>
+  <p><a href="INDEX.HTML" class="link">Go to HOME</a></p>
+  </div>
+  
 
   <input id="name" placeholder="Enter name"><br><br>
   <input id="content" placeholder="Enter roll no"><br><br>
-  <button onclick="makeQR()">Generate QR</button>
+  <button  class="btnnn"   onclick="makeQR()">Generate QR</button>
 
   <div id="qrcode"></div>
   <p id="qrtext"></p>
 
-  <p><a href="scanner.html" class="link">Go to QR Scanner</a></p>
-  <p><a href="INDEX.HTML" class="link">Go to HOME</a></p>
+  
 
-  <!-- QRCode library -->
+  
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script>
     function makeQR() {
@@ -171,7 +195,7 @@ input:focus {
       document.getElementById("qrcode").appendChild(canvas);
 
       QRCode.toCanvas(canvas, text);
-      QRCode.toCanvas(canvas, text, { width: 300 });  // width matches container
+      QRCode.toCanvas(canvas, text, { width: 300 });  
 
       document.getElementById("qrtext").innerText = text;
     }
