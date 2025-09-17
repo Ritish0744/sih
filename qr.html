@@ -195,7 +195,7 @@ input:focus {
       document.getElementById("qrcode").appendChild(canvas);
 
       QRCode.toCanvas(canvas, text);
-      QRCode.toCanvas(canvas, text, { width: 300 });  
+      QRCode.toCanvas(canvas, text, { width: 300 });  // width matches container
 
       document.getElementById("qrtext").innerText = text;
     }
