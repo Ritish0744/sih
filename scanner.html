@@ -101,7 +101,7 @@
   <h1>QR Scanner</h1>
   <div class="links">
     <p><a href="qr.html">Go to QR Generator</a></p>
-  <p><a href="INDEX.HTML">Go to HOME</a></p>
+  <p><a href="index.html">Go to HOME</a></p>
 
   </div>
    
@@ -133,7 +133,7 @@
       let ctx = canvas.getContext("2d");
 
       interval = setInterval(() => {
-        if (!canScan) return; // skip scanning during cooldown
+        if (!canScan) return; 
 
         if (video.readyState === video.HAVE_ENOUGH_DATA) {
           canvas.width = video.videoWidth;
@@ -173,3 +173,4 @@
   </script>
 </body>
 </html>
+
